@@ -4,7 +4,7 @@ API Gateway is AWS' offering for managing APIs.  The vast majority of APIs are p
 
 At the end of the workshop, we'll have an API Gateway backed by a Lambda authoriser, which uses a Cognito user pool to verify users' identity as part of queries to the API.
 
-- [1: Set up API Gateway](instructions/step1.md)
+- [1: Set up API Gateway](step1/README.md)
 - [2: Create Cognito user pool and provision a user](instructions/step2.md)
 - [3: Build and deploy Lambda authoriser](instructions/step3.md)
 - [Extension: Lambda authorisers using SAML and OAuth 2](instructions/advanced.md)

@@ -1,0 +1,129 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: ProductCorp Internal Sales API - Step 1
+
+Parameters:
+  RestApiName:
+    Type: String
+    Default: ProductCorp_SupportApi
+
+Resources:
+  InternalSupportAPI:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      EndpointConfiguration:
+        Types:
+        - REGIONAL
+      Name: !Ref RestApiName
+      Description: API for the ProductCorp client database
+
+  SupportAPIResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref InternalSupportAPI
+      ParentId: !GetAtt
+        - InternalSupportAPI
+        - RootResourceId
+      PathPart: 'test'
+
+  SupportAPIMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: GET
+      RestApiId: !Ref InternalSupportAPI
+      ResourceId: !Ref SupportAPIResource
+      Integration:
+        Type: AWS
+        IntegrationHttpMethod: POST
+        Uri: !Sub >-
+          arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TestLambda.Arn}/invocations
+      MethodResponses:
+        - StatusCode: 200
+
+  SupportAPIProdStage:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      RestApiId: !Ref InternalSupportAPI
+      DeploymentId: !Ref SupportAPIDeployment
+      MethodSettings:
+        - ResourcePath: /
+          HttpMethod: GET
+          MetricsEnabled: 'true'
+          DataTraceEnabled: 'false'
+      StageName: prod
+      Description: Production deployment of the ProductCorp support API
+
+  SupportAPIDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn: SupportAPIMethod
+    Properties:
+      RestApiId: !Ref InternalSupportAPI
+      Description: Deployment shell for ProductCorp support API
+      StageName: DummyStage
+
+  LambdaAccessPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName:
+        "Fn::GetAtt":
+          - TestLambda
+          - Arn
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceAccount: !Ref 'AWS::AccountId'
+      SourceArn:
+        "Fn::Join":
+          - ""
+          - - "arn:aws:execute-api:"
+            - Ref: "AWS::Region"
+            - ":"
+            - Ref: "AWS::AccountId"
+            - ":"
+            - Ref: InternalSupportAPI
+            - /*
+
+  TestLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      Runtime: python3.7
+      Role: !GetAtt LambdaIAMRole.Arn
+      Handler: index.handler
+      Code:
+        ZipFile: |
+          print('Welcome to the ProductCorp Support API!')
+      Description: Lambda function for ProductCorp's Support API.
+
+  LambdaIAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - lambda:*
+                Resource: "*"
+
+Outputs:
+  RootUrl:
+    Description: Root URL of the API gateway
+    Value: !Join
+      - ""
+      - - "https://"
+        - !Ref InternalSupportAPI
+        - .execute-api.
+        - !Ref "AWS::Region"
+        - .amazonaws.com/
