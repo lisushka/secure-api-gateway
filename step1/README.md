@@ -8,15 +8,39 @@ It is highly recommended to provision a Cloud9 environment for this lab, as Clou
 
 ## Checking out the workshop code
 
-1. Load up the Cloud9 environment that you just provisioned.  In the terminal window at the bottom, run the following command:
+Load up the Cloud9 environment that you just provisioned.  In the terminal window at the bottom, run the following command:
 
-    ```bash
-    git clone git@github.com:lisushka/secure-api-gateway
-    ```
+```bash
+git clone git@github.com:lisushka/secure-api-gateway
+```
 
-1. You should now see 
+You should now see the files in this repository in the sidebar of your Cloud9 IDE.
 
-## Deploying the API Gateway template
+## Deploying the API Gateway
+
+### Creating an IAM user and access key pair
+
+1. In the AWS console, go to `IAM` > `Users`, and click `Add user`.
+
+1. Under `Access type`, select `Programmatic access`.  Go to the next step, and select `Attach existing policies directly`. Attach the `AdministratorAccess` policy, and then click through to review and create the user.  An access key pair will be displayed on screen - we'll need this to configure the CLI profile.
+
+### Configuring the AWS CLI profile
+
+1. In the Cloud9 terminal, run `aws configure`.
+
+1. For `AWS Access Key ID`, copy the access key ID from the IAM console (this always begins with the letters `AK`).
+
+1. For `AWS Secret Access Key`, copy the secret access key from the IAM console (you may have to unhide it).
+
+1. For the `Default region name`, use `us-east-1`.  Leave the default output format blank.
+
+### Deploying CloudFormation
+
+Once the AWS CLI is configured in Cloud9, we can deploy the template using the following commands:
+
+```bash
+secure-api-gateway $ aws cloudformation deploy --stack-name secure-api-stack --template-file step1/cf.yaml --capabilities CAPABILITY_IAM
+```
 
 ## Testing the API Gateway
 
