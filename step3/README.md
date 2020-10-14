@@ -23,3 +23,5 @@ Our CloudFormation stack now includes an API authoriser that queries the Cognito
 1. Enter your email address in both the `Username` and `Email` fields.  Create a temporary password - you'll be prompted to change it later.  You will use your email as the username, and your temporary password to sign in.
 
 1. Test the API Gateway using the instructions in Step 1.  You should receive a failure response, as we're not passing a valid token.  We'll cover token handling in the Extension section.
+
+[Back to home](../README.md)

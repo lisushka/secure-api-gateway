@@ -71,3 +71,5 @@ You can test the API Gateway using the Postman application, if you have it insta
 1. Change the HTTP request method to `GET`.
 
 1. Click the `Send` button.  You should receive a response that reads "Welcome to the ProductCorp Support API!"
+
+[Back to home](../README.md)

@@ -24,3 +24,5 @@ Properties:
 ```
 
 AWS also provides [several custom authorisers](https://github.com/awslabs/aws-apigateway-lambda-authorizer-blueprints) that you can edit to suit your use-case.
+
+[Back to home](../README.md)

@@ -21,3 +21,5 @@ This will add the Cognito user pools to our CloudFormation stack.
 1. Enter your email address in both the `Username` and `Email` fields.  Create a temporary password - you'll be prompted to change it later.  You will use your email as the username, and your temporary password to sign in.
 
 1. Click the `Create user` button to add yourself to the user pool.
+
+[Back to home](../README.md)
