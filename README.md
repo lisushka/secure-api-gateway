@@ -6,6 +6,6 @@ At the end of the workshop, we'll have an API Gateway backed by a Lambda authori
 
 - [1: Set up API Gateway](step1/README.md)
 - [2: Create Cognito user pool and provision a user](step2/README.md)
-- [3: Build and deploy Lambda authoriser](instructions/step3.md)
-- [Extension: Lambda authorisers using SAML and OAuth 2](instructions/advanced.md)
-- [Cleanup](instructions/cleanup.md)
+- [3: Build and deploy Lambda authoriser](step3/README.md)
+- [Extension: Lambda authorisers using SAML and OAuth 2](advanced/README.md)
+- [Cleanup](cleanup/README.md)
