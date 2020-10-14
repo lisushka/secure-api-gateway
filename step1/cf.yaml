@@ -91,7 +91,8 @@ Resources:
       Handler: index.handler
       Code:
         ZipFile: |
-          print('Welcome to the ProductCorp Support API!')
+          def handler(event, context):
+              print('Welcome to the ProductCorp Support API!')
       Description: Lambda function for ProductCorp's Support API.
 
   LambdaIAMRole:

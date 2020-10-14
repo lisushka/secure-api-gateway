@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 
-Description: ProductCorp Internal Sales API - Step 2
+Description: ProductCorp Internal Sales API - Step 3
 
 Parameters:
   RestApiName:
@@ -150,6 +150,16 @@ Resources:
         - ClientId: !Ref CognitoPoolClient
           ProviderName: !GetAtt CognitoPool.ProviderName
           ServerSideTokenCheck: true
+
+  UserPoolAuthoriser:
+    Type: AWS::ApiGateway::Authorizer
+    Properties:
+      IdentitySource: method.request.header.Authorization
+      ProviderARNs:
+        - !GetAtt CognitoPool.Arn
+      Name: ApiAuthoriser
+      RestApiId: !Ref InternalSupportAPI
+      Type: COGNITO_USER_POOLS
 
 Outputs:
   RootUrl:

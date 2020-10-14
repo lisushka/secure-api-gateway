@@ -2,7 +2,7 @@
 
 Now that we've created ProductCorp's API Gateway, we need a method of authenticating company staff to use the API.  In order to do this, we're going to create an Amazon Cognito user pool, and then provision users for the sales staff.
 
-##  Setting up Cognito user pool
+## Setting up Cognito user pool
 
 Setting up the Cognito user pools requires us to deploy the new CloudFormation template with the user pools attached:
 
